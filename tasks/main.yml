@@ -1,0 +1,28 @@
+---
+
+- name: packages install libxss1 lsof
+  apt:
+    name: "{{item}}"
+    update_cache: no
+  with_items:
+      - libxss1
+      - lsof
+
+- name: enpass apt-key
+  apt_key:
+    url: https://dl.sinew.in/keys/enpass-linux.key
+    keyring: /etc/apt/trusted.gpg.d/enpass.gpg
+    state: present
+
+- name: enpass repo
+  apt_repository:
+    repo: 'deb http://repo.sinew.in/ stable main'
+    state: present
+    filename: 'enpass-io'
+
+- name: packages install enpass
+  apt:
+    name: enpass
+    state: present
+    update_cache: yes
+
